@@ -1,24 +1,28 @@
-name: Digikala daily best sellers
+name: Daily Digikala Best Sellers
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 5 * * *"   # 09:00 Iran time during UTC+3:30; adjust for DST if needed
+    - cron: "30 5 * * *"
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    env:
+      SHEET_WEBHOOK_URL: ${{ secrets.SHEET_WEBHOOK_URL }}
+
+    steps:
+      - name: Get repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - run: npm install
-      - run: npx playwright install --with-deps chromium
+      - name: Install dependencies
+        run: npm install
 
-      - name: Scrape and send to Google Sheet
-        env:
-          SHEET_WEBHOOK_URL: ${{ secrets.SHEET_WEBHOOK_URL }}
-        run: npm run scrape
+      - name: Run scraper
+        run: node scraper.js
