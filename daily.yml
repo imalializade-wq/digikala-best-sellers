@@ -1,4 +1,4 @@
-name: Daily Digikala Best Sellers
+name: Test Google Sheet Connection
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check secret
+      - name: Check Google Sheet secret
         env:
           SHEET_WEBHOOK_URL: ${{ secrets.SHEET_WEBHOOK_URL }}
         run: |
