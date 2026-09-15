@@ -1,25 +1,20 @@
-name: Daily Digikala Best Sellers
+name: Test Google Sheet Connection
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "30 5 * * *"
 
 jobs:
-  scrape:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run scraper
-        run: node scraper.js
+      - name: Check Google Sheet secret
+        env:
+          SHEET_WEBHOOK_URL: ${{ secrets.SHEET_WEBHOOK_URL }}
+        run: |
+          if [ -z "$SHEET_WEBHOOK_URL" ]; then
+            echo "SECRET IS EMPTY"
+            exit 1
+          else
+            echo "SECRET EXISTS"
+          fi
