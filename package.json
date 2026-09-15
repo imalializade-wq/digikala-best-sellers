@@ -1,0 +1,11 @@
+{
+  "name": "digikala-best-sellers",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "scrape": "node scraper.js"
+  },
+  "dependencies": {
+    "playwright": "^1.55.0"
+  }
+}
